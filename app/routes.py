@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from flask_cors import CORS, cross_origin
 from .db import add_record, get_records, clear_records
+from .script_builder import execute_code
 
 main = Blueprint('main', 'api')
 cors = CORS(main, resources={r"/*": {"origins": "http://localhost:3000"}}) #Add your url of project here
@@ -41,8 +42,12 @@ def req():
         data = request.json
         src = data.get('src')
 
-        exec(src)
-        return f'<i>{src}</i>'
+        res = execute_code(src)
+
+        if res['error'] == None:
+            return f'<p>local vars{res['local_vars']}</p>\n<p>local vars{res['result']}</p>'
+        else:
+            return f'<p>error: {res['error']}</p>'
     except Exception as e:
         return str(e)
 
