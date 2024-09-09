@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from flask_cors import CORS, cross_origin
-import requests
+import db
 
 main = Blueprint('main', 'api')
 cors = CORS(main, resources={r"/*": {"origins": "http://localhost:3000"}}) #Add your url of project here
@@ -14,6 +14,17 @@ def index():
 @cross_origin()
 def help():
     return f'<h1>Help</h1>'
+
+@main.route('/push_doc', methods=["GET"])
+@cross_origin()
+def push_doc():
+    db.add_record('doc X')
+    return '<p>added "doc X"</p>'
+
+@main.route('/last_doc', methods=["GET"])
+@cross_origin()
+def last_doc():
+    return db.get_records()
 
 @main.route('/exec', methods=["POST"])
 @cross_origin()
