@@ -42,9 +42,13 @@ def req():
         data = request.json
         src = data.get('src')
 
-        res = execute_code(src)
+        try:
+            res = execute_code(src)
 
-        return res
+            return res
+        except:
+            return str(e)
+
     except Exception as e:
         return str(e)
 
