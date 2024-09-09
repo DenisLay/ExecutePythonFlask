@@ -1,5 +1,6 @@
 import io
 import sys
+import json
 
 def execute_code(src):
     local_vars = {}

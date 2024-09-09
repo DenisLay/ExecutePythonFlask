@@ -2,6 +2,7 @@ from flask import Blueprint, request
 from flask_cors import CORS, cross_origin
 from .db import add_record, get_records, clear_records
 from .script_builder import execute_code
+import json
 
 main = Blueprint('main', 'api')
 cors = CORS(main, resources={r"/*": {"origins": "http://localhost:3000"}}) #Add your url of project here
@@ -45,12 +46,12 @@ def req():
         try:
             res = execute_code(src)
 
-            return res
+            return json.dumps(res, indent=1)
         except Exception as e:
-            return str(e)
+            return json.dumps({ 'error': str(e) }, indent=1) 
 
     except Exception as e:
-        return str(e)
+        return json.dumps({ 'error': str(e) }, indent=1) 
 
 @main.route("/check", methods=["GET"])
 @cross_origin()
