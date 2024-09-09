@@ -19,6 +19,6 @@ def execute_code(src):
 
     output = new_stdout.getvalue()
 
-    result = dict(output=str(output), local_vars=str(local_vars))
+    result = dict(output=output, local_vars=str(local_vars))
 
     return result
