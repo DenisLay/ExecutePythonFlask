@@ -47,7 +47,7 @@ def req():
         if res['error'] == None:
             return f'<p>local vars{res}</p>\n<p>local vars{res}</p>'
         else:
-            return f'<p>error: {res['error']}</p>'
+            return f'<p>error: {res}</p>'
     except Exception as e:
         return str(e)
 
