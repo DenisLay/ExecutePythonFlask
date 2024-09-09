@@ -13,7 +13,7 @@ def execute_code(src):
     try:
         exec(src, globals(), local_vars)
     except Exception as e:
-        error = e
+        error = str(e)
     finally:
         sys.stdout = old_stdout
 
