@@ -30,6 +30,9 @@ def last_doc():
 @cross_origin()
 def clear():
     clear_records()
+    return {
+        "status":"ok"
+    }
 
 @main.route('/exec', methods=["POST"])
 @cross_origin()
