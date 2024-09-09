@@ -9,7 +9,7 @@ def execute_code(src):
     sys.stdout = new_stdout
 
     try:
-        exec(src, globals(), local_vars)
+        exec(src, dict(), local_vars)
     except Exception as e:
         return {
             'error': str(e)
