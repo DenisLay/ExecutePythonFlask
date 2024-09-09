@@ -44,10 +44,7 @@ def req():
 
         res = execute_code(src)
 
-        if res['error'] == None:
-            return f'<p>local vars{res}</p>\n<p>local vars{res}</p>'
-        else:
-            return f'<p>error: {res}</p>'
+        return res
     except Exception as e:
         return str(e)
 
