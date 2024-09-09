@@ -23,6 +23,9 @@ def execute_code(src):
     for key, value in local_vars.items():
         json_items.append(dict(key=key, value=value))
 
+    with open('db.txt', 'w') as f:
+        f.write(json_items)
+
     result = json.dumps(json_items, indent=4)
 
     return result
