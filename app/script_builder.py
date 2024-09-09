@@ -10,7 +10,7 @@ def execute_code(src):
 
     try:
         exec(src, globals(), local_vars)
-    except:
+    except Exception as e:
         return {
             'error': str(e)
         }
