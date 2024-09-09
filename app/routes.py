@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from flask_cors import CORS, cross_origin
-from .db import add_record, get_records
+from .db import add_record, get_records, clear_records
 
 main = Blueprint('main', 'api')
 cors = CORS(main, resources={r"/*": {"origins": "http://localhost:3000"}}) #Add your url of project here
@@ -25,6 +25,11 @@ def push_doc():
 @cross_origin()
 def last_doc():
     return get_records()
+
+@main.route('/clear', methods=["GET"])
+@cross_origin()
+def clear():
+    clear_records()
 
 @main.route('/exec', methods=["POST"])
 @cross_origin()

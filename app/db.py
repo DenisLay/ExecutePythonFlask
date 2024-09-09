@@ -11,3 +11,7 @@ def get_records():
         records = f.read()
 
     return records
+
+def clear_records():
+    with open('db.txt', 'w') as f:
+        f.write('')
