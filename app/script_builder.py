@@ -19,6 +19,6 @@ def execute_code(src):
 
     output = new_stdout.getvalue()
 
-    result = dict(local_vars=local_vars)
+    result = json.dumps(local_vars, indent=4)
 
     return result

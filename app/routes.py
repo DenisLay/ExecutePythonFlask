@@ -46,7 +46,8 @@ def req():
         try:
             res = execute_code(src)
 
-            return json.dumps(res, indent=1)
+            return res
+            #return json.dumps(res, indent=1)
         except Exception as e:
             return json.dumps({ 'error-in': str(e) }, indent=1) 
 
