@@ -9,18 +9,12 @@ def execute_code(src):
     sys.stdout = new_stdout
 
     try:
-        exec(src, dict(), local_vars)
+        exec(src, globals(), local_vars)
     except Exception as e:
-        return {
-            'error': str(e)
-        }
+        return e
     finally:
         sys.stdout = old_stdout
 
     result = new_stdout.getvalue()
 
-    return {
-        'error': None,
-        'local_vars': local_vars,
-        'result': result
-    }
+    return result
