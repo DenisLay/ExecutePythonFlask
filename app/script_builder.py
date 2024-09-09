@@ -19,6 +19,10 @@ def execute_code(src):
 
     output = new_stdout.getvalue()
 
-    result = json.dumps(local_vars, indent=4)
+    json_items = []
+    for key, value in local_vars.items():
+        json_items.append(dict(key=key, value=value))
+
+    result = json.dumps(json_items, indent=4)
 
     return result
