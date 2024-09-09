@@ -46,7 +46,7 @@ def req():
             res = execute_code(src)
 
             return res
-        except:
+        except Exception as e:
             return str(e)
 
     except Exception as e:
