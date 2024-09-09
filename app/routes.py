@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from flask_cors import CORS, cross_origin
-import db
+import .db
 
 main = Blueprint('main', 'api')
 cors = CORS(main, resources={r"/*": {"origins": "http://localhost:3000"}}) #Add your url of project here
