@@ -1,6 +1,7 @@
 import io
 import sys
 import json
+import types
 
 def execute_code(src):
     local_vars = {}
@@ -22,7 +23,17 @@ def execute_code(src):
 
     json_items = []
     for key, value in local_vars.items():
-        json_items.append(dict(key=key, value=value))
+        if isinstance(value, (types.ModuleType, types.FunctionType, types.BuiltinFunctionType)):
+            json_value = str(type(value))
+        else:
+            try:
+                # Спробуйте серіалізувати значення в JSON
+                json_value = json.dumps(value)
+            except (TypeError, OverflowError):
+                # Якщо значення не може бути серіалізоване, замініть його на рядок
+                json_value = str(value)
+
+        json_items.append({'key': key, 'value': json_value})
 
     result = json.dumps(json_items, indent=4)
 
