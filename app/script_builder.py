@@ -14,7 +14,7 @@ def execute_code(src):
         exec(src, globals(), local_vars)
     except Exception as e:
         error = str(e)
-        return json.dumps({'error-first': error})
+        return json.dumps({'error-first': f'{error} (MARKED)'})
     finally:
         sys.stdout = old_stdout
 
