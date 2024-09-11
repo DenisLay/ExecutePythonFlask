@@ -14,6 +14,7 @@ def execute_code(src):
         exec(src, globals(), local_vars)
     except Exception as e:
         error = str(e)
+        return json.dumps({'error-first': error})
     finally:
         sys.stdout = old_stdout
 
@@ -22,9 +23,6 @@ def execute_code(src):
     json_items = []
     for key, value in local_vars.items():
         json_items.append(dict(key=key, value=value))
-
-    with open('db.txt', 'w') as f:
-        f.write(json_items)
 
     result = json.dumps(json_items, indent=4)
 

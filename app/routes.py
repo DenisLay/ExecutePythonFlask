@@ -54,9 +54,9 @@ def req():
     except Exception as e:
         return json.dumps({ 'error-out': str(e) }, indent=1) 
 
-@main.route("/check", methods=["GET"])
+@main.route('chec', methods=["GET"])
 @cross_origin()
 def check():
     return {
-        "status":"ok"
+        'status' : 'ok'
     }
