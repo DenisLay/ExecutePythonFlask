@@ -27,10 +27,8 @@ def execute_code(src):
             json_value = str(type(value))
         else:
             try:
-                # Спробуйте серіалізувати значення в JSON
                 json_value = json.dumps(value)
             except (TypeError, OverflowError):
-                # Якщо значення не може бути серіалізоване, замініть його на рядок
                 json_value = str(value)
 
         json_items.append({'key': key, 'value': json_value})
