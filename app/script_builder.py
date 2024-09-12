@@ -27,9 +27,9 @@ def execute_code(src):
             json_value = str(type(value)).encode('utf-8').decode('unicode_escape')
         else:
             try:
-                json_value = json.dumps(value)
+                json_value = json.dumps(value).encode('utf-8').decode('unicode_escape')
             except (TypeError, OverflowError):
-                json_value = str(value)
+                json_value = str(value).encode('utf-8').decode('unicode_escape')
 
         if key == 'result':
             json_items.append({'key': key, 'value': json_value})
