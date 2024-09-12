@@ -32,7 +32,7 @@ def execute_code(src):
                 json_value = str(value)
 
         if key == 'result':
-            json_items.append({'key': key, 'value': json_value})
+            json_items.append({'key': key, 'value': json_value.encode('utf-8').decode('unicode_escape')})
         #json_items.append({'key': key, 'value': json_value})
 
     result = json.dumps(json_items, indent=4)
