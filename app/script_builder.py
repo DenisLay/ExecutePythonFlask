@@ -24,7 +24,7 @@ def execute_code(src):
     json_items = []
     for key, value in local_vars.items():
         if isinstance(value, (types.ModuleType, types.FunctionType, types.BuiltinFunctionType)):
-            json_value = str(type(value))
+            json_value = str(type(value)).encode('utf-8').decode('unicode_escape')
         else:
             try:
                 json_value = json.dumps(value)
@@ -32,7 +32,7 @@ def execute_code(src):
                 json_value = str(value)
 
         if key == 'result':
-            json_items.append({'key': key, 'value': json_value.encode('utf-8').decode('unicode_escape')})
+            json_items.append({'key': key, 'value': json_value})
         #json_items.append({'key': key, 'value': json_value})
 
     result = json.dumps(json_items, indent=4)
