@@ -24,12 +24,12 @@ def execute_code(src):
     json_items = []
     for key, value in local_vars.items():
         if isinstance(value, (types.ModuleType, types.FunctionType, types.BuiltinFunctionType)):
-            json_value = str(type(value)).encode('utf-8').decode('unicode_escape')
+            json_value = str(type(value))
         else:
             try:
-                json_value = json.dumps(value).encode('utf-8').decode('unicode_escape')
+                json_value = json.dumps(value)
             except (TypeError, OverflowError):
-                json_value = str(value).encode('utf-8').decode('unicode_escape')
+                json_value = str(value)
 
         if key == 'result':
             json_items.append({'key': key, 'value': json_value})
