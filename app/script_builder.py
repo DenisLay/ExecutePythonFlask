@@ -11,6 +11,17 @@ def execute_code(src):
     new_stdout = io.StringIO()
     sys.stdout = new_stdout
 
+    pre_code = """
+        def import(package_name):
+            try:
+                subprocess.check_call([sys.executable, '-m', 'pip', 'install', package_name])
+            except subprocess.CalledProcessError as e:
+                result = e
+                return
+    """
+
+    src = f'{pre_code}\n\n\n{src}'
+
     try:
         exec(src, globals(), local_vars)
     except Exception as e:
