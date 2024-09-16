@@ -24,10 +24,10 @@ def import_package(name, package):
             subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])
             importlib.import_module(name)
         except subprocess.CalledProcessError as e:
-            result = str(e)
+            result = f'{str(e)} || exit 1'
             sys.exit(1)
         except ModuleNotFoundError:
-            result = str(e)
+            result = f'{str(e)} || exit 2'
             sys.exit(2)
     """
 
