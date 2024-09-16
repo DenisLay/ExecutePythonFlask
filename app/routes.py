@@ -59,18 +59,20 @@ def req():
 @cross_origin()
 def db():
     try:
-        connection = psycopg2.connect(database="example-db",
-                                        host="postgresql://user:67Xh91AN1squhUUMse0ckLo965OFiLKo@dpg-crjvuel2ng1s73fm1p10-a.oregon-postgres.render.com/maindb_d1pv",
-                                        user="user",
-                                        password="PGPASSWORD=67Xh91AN1squhUUMse0ckLo965OFiLKo psql -h dpg-crjvuel2ng1s73fm1p10-a.oregon-postgres.render.com -U user maindb_d1pv")
+        connection = psycopg2.connect(
+            dbname='maindb_d1pv',
+            user='user',
+            password='67Xh91AN1squhUUMse0ckLo965OFiLKo',
+            host='dpg-crjvuel2ng1s73fm1p10-a.oregon-postgres.render.com'
+        )
         cursor = connection.cursor()
 
         return {
-            'status': str(cursor)
+            'status': f'ok: {str(cursor)}'
         }
     except Exception as e:
         return {
-            'status': str(e)
+            'status': f'error: {str(e)}'
         }
 
 @main.route('/check', methods=["GET"])
