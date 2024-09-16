@@ -40,12 +40,12 @@ def req():
 def new_table():
     try:
         data = request.json
-        src = jsonify(data.get('src'))
+        src = data.get('src')
 
         try:
             #result = bot.create_table(src)
 
-            return src
+            return type(src)
         except Exception as e:
             return json.dumps({ 'error-in': str(e) }, indent=1)
 
