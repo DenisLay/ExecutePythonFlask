@@ -23,7 +23,7 @@ class DBBot:
             columns_script = ''
 
             for column in columns:
-                column_script = f'{column.name} {column.attrs},'
+                column_script = f'{column},'
                 columns_script += column_script
 
             script = f'CREATE TABLE {table_name} ({columns_script});'
@@ -37,7 +37,7 @@ class DBBot:
 #     "columns": [
 #         {
 #             "id": "0",
-#             "name": "id",
+#             "na   me": "id",
 #             "attrs": "SERIAL PRIMARY KEY"
 #         },
 #         {
