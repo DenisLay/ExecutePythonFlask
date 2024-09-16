@@ -43,7 +43,7 @@ def new_table():
         src = data.get('src')
 
         try:
-            return type(src)
+            return src
         except Exception as e:
             return json.dumps({ 'error-in': str(e) }, indent=1)
 
