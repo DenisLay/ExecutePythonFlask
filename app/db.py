@@ -29,7 +29,11 @@ class DBBot:
             columns_script = ''
 
             for index, column in enumerate(columns):
-                column_script = f'{column["name"]} {column["attrs"]}{',' if index < len(columns) - 1 else ''}'
+                if index < len(columns) - 1:
+                    sym = ','
+                else:
+                    sym = ''
+                column_script = f'{column["name"]} {column["attrs"]}{sym}'
                 columns_script += column_script
 
             script = f'CREATE TABLE {table_name} ({columns_script});'
