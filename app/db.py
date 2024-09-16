@@ -18,7 +18,17 @@ class DBBot:
     def create_table(self, src):
         try:
             table_name = src.get('table')
-            return table_name
+            columns = src.get('columns')
+
+            columns_script = ''
+
+            for column in columns:
+                column_script = f'{column.name} {column.attrs},'
+                columns_script += column_script
+
+            script = f'CREATE TABLE {table_name} ({columns_script});'
+
+            return script
         except Exception as e:
             return f'error: {str(e)}'
 

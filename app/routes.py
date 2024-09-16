@@ -43,15 +43,9 @@ def new_table():
         src = json.loads(data.get('src'))
 
         try:
-            #result = bot.create_table(src)
+            script = bot.create_table(src)
 
-            table_name = src.get('table')
-            columns = src.get('columns')
-
-            return {
-                "name": table_name,
-                "col": columns[0]
-            }
+            return script
         except Exception as e:
             return json.dumps({ 'error-in': str(e) }, indent=1)
 
