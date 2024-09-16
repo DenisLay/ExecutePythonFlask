@@ -15,10 +15,10 @@ class DBBot:
         self.cursor.execute(script)
         self.connection.commit()
 
-    def create_table(self, table_data):
+    def create_table(self, src):
         try:
-            #table_name = table_data['table']
-            return type(table_data)
+            table_name = src.get('table')
+            return table_name
         except Exception as e:
             return f'error: {str(e)}'
 
