@@ -16,17 +16,26 @@ import importlib
 import subprocess
 import sys
 
+logs = []
+
 def import_package(name, package):
     try:
+        logs.append('try to import module.')
         importlib.import_module(name)
-    except Exception as e:
+        logs.append('module imported.')
+    except ImportError as e:
         try:
+            logs.append('ImportError.')
             subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])
+            logs.append('package installed.')
             importlib.import_module(name)
+            logs.append('try to import.')
         except subprocess.CalledProcessError as e:
+            logs.append('subprocess.CalledProcessError.')
             result = f'{str(e)} || exit 1'
             sys.exit(1)
-        except ModuleNotFoundError:
+        except ModuleNotFoundError as e:
+            logs.append('ModuleNotFoundError.')
             result = f'{str(e)} || exit 2'
             sys.exit(2)
     """
@@ -53,7 +62,7 @@ def import_package(name, package):
             except (TypeError, OverflowError):
                 json_value = str(value)
 
-        if key == 'result':
+        if key == 'result' or key == 'logs':
             json_items.append({'key': key, 'value': json_value})
         #json_items.append({'key': key, 'value': json_value})
 
