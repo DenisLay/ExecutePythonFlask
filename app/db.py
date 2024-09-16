@@ -29,7 +29,7 @@ class DBBot:
             columns_script = ''
 
             for column in columns:
-                column_script = f'{column['name']},'
+                column_script = f'{column.get('name')},'
                 columns_script += column_script
 
             script = f'CREATE TABLE {table_name} ({columns_script});'
