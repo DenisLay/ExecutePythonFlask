@@ -62,8 +62,8 @@ def import_package(name, package):
             except (TypeError, OverflowError):
                 json_value = str(value)
 
-        if key == 'result' or key == 'logs':
-            json_items.append({'key': key, 'value': json_value})
+        #if key == 'result' or key == 'logs':
+        json_items.append({'key': key, 'value': json_value})
         #json_items.append({'key': key, 'value': json_value})
 
     json_items.append({'key': 'src', 'value': src})
