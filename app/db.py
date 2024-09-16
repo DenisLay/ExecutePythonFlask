@@ -38,8 +38,11 @@ class DBBot:
 
             script = f'CREATE TABLE {table_name} ({columns_script});'
 
-            return script
+            self.cursor.execute(script)
+            self.connection.commit()
+
         except Exception as e:
+            self.connection.rollback()
             return f'error: {str(e)}'
 
 # {
