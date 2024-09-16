@@ -43,9 +43,9 @@ def new_table():
         src = json.loads(data.get('src'))
 
         try:
-            script = bot.create_table(src)
+            status = bot.create_table(src)
 
-            return script
+            return status
         except Exception as e:
             return json.dumps({ 'error-in': str(e) }, indent=1)
 

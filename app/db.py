@@ -41,6 +41,7 @@ class DBBot:
             self.cursor.execute(script)
             self.connection.commit()
 
+            return 'ok'
         except Exception as e:
             self.connection.rollback()
             return f'error: {str(e)}'
