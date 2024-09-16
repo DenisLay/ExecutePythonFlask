@@ -19,6 +19,8 @@ import sys
 logs = []
 
 def import_package(name, package):
+    logs = []
+
     try:
         logs.append('try to import module.')
         importlib.import_module(name)
