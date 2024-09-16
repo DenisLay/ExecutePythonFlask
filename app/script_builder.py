@@ -12,20 +12,23 @@ def execute_code(src):
     sys.stdout = new_stdout
 
     pre_code = """
-def import_package(name, package):
-    import importlib
-    import subprocess
-    import sys
+import importlib
+import subprocess
+import sys
 
+def import_package(name, package):
     try:
         importlib.import_module(name)
     except ModuleNotFoundError:
         try:
             subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])
             importlib.import_module(name)
-        expect ModuleNotFoundError:
+        expect subprocess.CalledProcessError as e:
             result = str(e)
             sys.exit(1)
+        expect ModuleNotFoundError:
+            result = str(e)
+            sys.exit(2)
     """
 
     src = f'{pre_code}\n\n\n{src}'
