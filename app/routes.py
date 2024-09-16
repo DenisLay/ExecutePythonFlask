@@ -3,6 +3,7 @@ from flask_cors import CORS, cross_origin
 from .db import add_record, get_records, clear_records
 from .script_builder import execute_code
 import json
+import psycopg2
 
 main = Blueprint('main', 'api')
 cors = CORS(main, resources={r"/*": {"origins": "http://localhost:3000"}}) #Add your url of project here
@@ -33,7 +34,7 @@ def last_doc():
 def clear():
     clear_records()
     return {
-        "status":"ok"
+        'status' : 'ok'
     }
 
 @main.route('/exec', methods=["POST"])
@@ -53,6 +54,24 @@ def req():
 
     except Exception as e:
         return json.dumps({ 'error-out': str(e) }, indent=1)
+
+@main.route('/db', methods=['GET'])
+@cross_origin()
+def db():
+    try:
+        connection = psycopg2.connect(database="example-db",
+                                        host="postgresql://user:67Xh91AN1squhUUMse0ckLo965OFiLKo@dpg-crjvuel2ng1s73fm1p10-a.oregon-postgres.render.com/maindb_d1pv",
+                                        user="user",
+                                        password="PGPASSWORD=67Xh91AN1squhUUMse0ckLo965OFiLKo psql -h dpg-crjvuel2ng1s73fm1p10-a.oregon-postgres.render.com -U user maindb_d1pv")
+        cursor = connection.cursor()
+
+        return {
+            'status': str(cursor)
+        }
+    except Exception as e:
+        return {
+            'status': str(e)
+        }
 
 @main.route('/check', methods=["GET"])
 @cross_origin()
