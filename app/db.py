@@ -29,8 +29,8 @@ class DBBot:
             columns_script = ''
 
             for column in columns:
-                column_script = f'{column.get('name')},'
-                columns_script += column_script
+                #column_script = f'{column.get('name')},'
+                columns_script += str(type(column))
 
             script = f'CREATE TABLE {table_name} ({columns_script});'
 
