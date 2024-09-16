@@ -44,9 +44,8 @@ def new_table():
 
         try:
             return {
-                'response': src
+                "status": bot.create_table(src)
             }
-            #bot.create_table()
         except Exception as e:
             return json.dumps({ 'error-in': str(e) }, indent=1)
 
