@@ -23,6 +23,9 @@ def import_package(name, package):
         try:
             subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])
             importlib.import_module(name)
+        expect ModuleNotFoundError:
+            result = str(e)
+            sys.exit(1)
     """
 
     src = f'{pre_code}\n\n\n{src}'
