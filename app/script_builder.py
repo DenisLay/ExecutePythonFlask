@@ -19,7 +19,7 @@ import sys
 def import_package(name, package):
     try:
         importlib.import_module(name)
-    except ModuleNotFoundError:
+    except Exception as e:
         try:
             subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])
             importlib.import_module(name)
