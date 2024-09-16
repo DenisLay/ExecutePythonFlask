@@ -54,7 +54,7 @@ def new_table():
 
 @main.route('/fetch', methods=["POST"])
 @cross_origin()
-def new_table():
+def fetch():
     try:
         data = request.json
 
@@ -67,19 +67,6 @@ def new_table():
 
     except Exception as e:
         return json.dumps({ 'error-out': str(e) }, indent=1)
-
-@main.route('/db', methods=['GET'])
-@cross_origin()
-def db():
-    try:
-
-        return {
-            'status': f'ok: {str(bot.cursor)}'
-        }
-    except Exception as e:
-        return {
-            'status': f'error: {str(e)}'
-        }
 
 @main.route('/check', methods=["GET"])
 @cross_origin()
