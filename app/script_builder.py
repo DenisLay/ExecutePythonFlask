@@ -36,7 +36,7 @@ def import_package(name, package):
             logs.append('subprocess.CalledProcessError.')
             result = f'{str(e)} || exit 1'
             sys.exit(1)
-        except ModuleNotFoundError as e:
+        except ImportError  as e:
             logs.append('ModuleNotFoundError.')
             result = f'{str(e)} || exit 2'
             sys.exit(2)
