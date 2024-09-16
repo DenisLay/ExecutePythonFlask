@@ -52,6 +52,22 @@ def new_table():
     except Exception as e:
         return json.dumps({ 'error-out': str(e) }, indent=1)
 
+@main.route('/fetch', methods=["POST"])
+@cross_origin()
+def new_table():
+    try:
+        data = request.json
+
+        try:
+            items = bot.fetch(data.get('src'))
+
+            return items
+        except Exception as e:
+            return json.dumps({ 'error-in': str(e) }, indent=1)
+
+    except Exception as e:
+        return json.dumps({ 'error-out': str(e) }, indent=1)
+
 @main.route('/db', methods=['GET'])
 @cross_origin()
 def db():

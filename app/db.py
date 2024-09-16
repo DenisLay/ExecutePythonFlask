@@ -15,6 +15,12 @@ class DBBot:
         self.cursor.execute(script)
         self.connection.commit()
 
+    def fetch(self, script):
+        self.cursor.execute(script)
+        items = self.cursor.fetchall()
+
+        return items
+
     def create_table(self, src):
         try:
             table_name = src.get('table')
@@ -23,7 +29,7 @@ class DBBot:
             columns_script = ''
 
             for column in columns:
-                column_script = f'{column},'
+                column_script = f'{column.name},'
                 columns_script += column_script
 
             script = f'CREATE TABLE {table_name} ({columns_script});'
