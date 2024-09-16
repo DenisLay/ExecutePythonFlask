@@ -66,7 +66,7 @@ def import_package(name, package):
             json_items.append({'key': key, 'value': json_value})
         #json_items.append({'key': key, 'value': json_value})
 
-        json_items.append({'key': 'src', 'value': src})
+    json_items.append({'key': 'src', 'value': src})
 
     result = json.dumps(json_items, indent=4)
 
