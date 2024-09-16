@@ -16,8 +16,8 @@ class DBBot:
         self.connection.commit()
 
     def create_table(self, table_data):
-        table_name = table_data['table']
-        return table_name
+        #table_name = table_data['table']
+        return type(table_data)
 
 # {
 #     "table": "users",
