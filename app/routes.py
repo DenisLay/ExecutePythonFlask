@@ -1,9 +1,8 @@
 from flask import Blueprint, request
 from flask_cors import CORS, cross_origin
-from .db import add_record, get_records, clear_records
 from .script_builder import execute_code
 import json
-import psycopg2
+from .db import bot
 
 main = Blueprint('main', 'api')
 cors = CORS(main, resources={r"/*": {"origins": "http://localhost:3000"}}) #Add your url of project here
@@ -17,25 +16,6 @@ def index():
 @cross_origin()
 def help():
     return f'<h1>Help</h1>'
-
-@main.route('/push_doc', methods=["GET"])
-@cross_origin()
-def push_doc():
-    add_record('doc X')
-    return '<p>added "doc X"</p>'
-
-@main.route('/last_doc', methods=["GET"])
-@cross_origin()
-def last_doc():
-    return get_records()
-
-@main.route('/clear', methods=["GET"])
-@cross_origin()
-def clear():
-    clear_records()
-    return {
-        'status' : 'ok'
-    }
 
 @main.route('/exec', methods=["POST"])
 @cross_origin()
@@ -55,20 +35,31 @@ def req():
     except Exception as e:
         return json.dumps({ 'error-out': str(e) }, indent=1)
 
+@main.route('/new_table', methods=["POST"])
+@cross_origin()
+def new_table():
+    try:
+        data = request.json
+        src = data.get('src')
+
+        try:
+            return {
+                'response': src
+            }
+            #bot.create_table()
+        except Exception as e:
+            return json.dumps({ 'error-in': str(e) }, indent=1)
+
+    except Exception as e:
+        return json.dumps({ 'error-out': str(e) }, indent=1)
+
 @main.route('/db', methods=['GET'])
 @cross_origin()
 def db():
     try:
-        connection = psycopg2.connect(
-            dbname='maindb_d1pv',
-            user='user',
-            password='67Xh91AN1squhUUMse0ckLo965OFiLKo',
-            host='dpg-crjvuel2ng1s73fm1p10-a.oregon-postgres.render.com'
-        )
-        cursor = connection.cursor()
 
         return {
-            'status': f'ok: {str(cursor)}'
+            'status': f'ok: {str(bot.cursor)}'
         }
     except Exception as e:
         return {

@@ -1,17 +1,21 @@
-import os
-import json
+import psycopg2
 
-def add_record(record):
-    with open('db.txt', 'a+') as f:
-        f.write(record + '\n')
+class DBBot:
+    def __init__(self, dbname, user, password, host):
+        self.connection = psycopg2.connect(
+            dbname = dbname,
+            user = user,
+            password = password,
+            host = host
+        )
 
-def get_records():
-    records = ''
-    with open('db.txt', 'r') as f:
-        records = f.read()
+        self.cursor = self.connection.cursor()
 
-    return records
+    def execScript(self, script):
+        self.cursor.execute(script)
+        self.connection.commit()
 
-def clear_records():
-    with open('db.txt', 'w') as f:
-        f.write('')
+    def create_table(self, table_name, ):
+        pass
+
+bot = DBBot('maindb_d1pv', 'user', '67Xh91AN1squhUUMse0ckLo965OFiLKo', 'dpg-crjvuel2ng1s73fm1p10-a.oregon-postgres.render.com')
