@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from flask_cors import CORS, cross_origin
 from .script_builder import execute_code
 import json
@@ -40,7 +40,7 @@ def req():
 def new_table():
     try:
         data = request.json
-        src = data.get('src')
+        src = jsonify(data.get('src'))
 
         try:
             #result = bot.create_table(src)
