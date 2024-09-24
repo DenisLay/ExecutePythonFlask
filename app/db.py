@@ -51,14 +51,20 @@ class DBBot:
             return f'error: {str(e)}'
 
     def create_user(self, username, email, password):
-        self.cursor.execute(f'SELECT * FROM users WHERE email = {email}')
-        user_exists = self.cursor.fetchone()
+        try:
+            self.cursor.execute(f'SELECT * FROM users WHERE email = {email}')
+            user_exists = self.cursor.fetchone()
 
-        if user_exists:
-            return jsonify({"message": "User already exists"}), 400
+            if user_exists:
+                return jsonify({"message": "User already exists"}), 400
+        except Exception as e:
+            return jsonify({"message": str(e)}), 400
 
-        self.cursor.execute(f'INSERT INTO users (username, email, password) values({username}, {email}, {password})')
-        self.connection.commit()
+        try:
+            self.cursor.execute(f'INSERT INTO users (username, email, password) values({username}, {email}, {password})')
+            self.connection.commit()
+        except Exception as e:
+            return jsonify({"message": str(e)}), 400
 
         return jsonify({"message": "User registered succesfully"}), 201
 
