@@ -26,18 +26,12 @@ def register():
     try:
         data = request.get_json()
 
-        # if not data:
-        #     return jsonify({"error": "No data provided"}), 400
-        #
-        # return jsonify({
-        #     "message": "Data received",
-        #     "data": {
-        #         "username": data['username'],
-        #         "email": data['email'],
-        #         "password": data['password']
-        #     }
-        # }), 201
-        return bot.create_user(data['username'], data['email'], Bcrypt.generate_password_hash(data['password']).decode('utf-8'))
+        if not data or 'username' not in data or 'email' not in data or 'password' not in data:
+            return jsonify({"error": "Missing data"}), 400
+
+        hashed_password = Bcrypt.generate_password_hash(data['password']).decode('utf-8')
+
+        return bot.create_user(data['username'], data['email'], hashed_password)
     except Exception as e:
         return jsonify({"error": str(e)})
 
