@@ -1,4 +1,8 @@
 import psycopg2
+from flask import jsonify
+from flask_bcrypt import Bcrypt
+from flask_jwt_extended import create_access_token
+
 
 class DBBot:
     def __init__(self, dbname, user, password, host):
@@ -46,7 +50,30 @@ class DBBot:
             self.connection.rollback()
             return f'error: {str(e)}'
 
+    def create_user(self, username, email, password):
+        self.cursor.execute(f'SELECT * FROM users WHERE email = {email}')
+        user_exists = self.cursor.fetchone()
+
+        if user_exists:
+            return jsonify({"message": "User already exists"}), 400
+
+        self.cursor.execute(f'INSERT INTO users (username, email, password) values({username}, {email}, {password})')
+        self.connection.commit()
+
+        return jsonify({"message": "User registered succesfully"}), 201
+
+    def login_user(self, email, password):
+        self.cursor.execute(f'SELECT * FROM users WHERE email = {email}')
+        user = self.cursor.fetchone()
+
+        if user and Bcrypt.check_password_hash(user[3], password):
+            access_token = create_access_token(identity={'username': user[1], 'email': user[2]})
+            return jsonify(access_token=access_token), 200
+
+        return jsonify({"message": "Invalid credentials"}), 401
+
 # {
+
 #     "table": "users",
 #     "columns": [
 #         {

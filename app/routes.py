@@ -1,5 +1,8 @@
 from flask import Blueprint, request, jsonify
 from flask_cors import CORS, cross_origin
+from flask_bcrypt import Bcrypt
+from flask_jwt_extended import jwt_required
+
 from .script_builder import execute_code
 import json
 from .db import bot
@@ -17,7 +20,20 @@ def index():
 def help():
     return f'<h1>Help</h1>'
 
+@main.route('/register', methods=["POST"])
+@cross_origin()
+def register():
+    data = request.get_json()
+    return bot.create_user(data['username'], data['email'], Bcrypt.generate_password_hash(data['password']).decode('utf-8'))
+
+@main.route('/login', methods=["POST"])
+@cross_origin()
+def login():
+    data = request.get_json()
+    return bot.login_user(data["email"], data["password"])
+
 @main.route('/exec', methods=["POST"])
+@jwt_required()
 @cross_origin()
 def req():
     try:
@@ -28,7 +44,6 @@ def req():
             res = execute_code(src)
 
             return res
-            #return json.dumps(res, indent=1)
         except Exception as e:
             return json.dumps({ 'error-in': str(e) }, indent=1)
 
@@ -36,6 +51,7 @@ def req():
         return json.dumps({ 'error-out': str(e) }, indent=1)
 
 @main.route('/new_table', methods=["POST"])
+@jwt_required()
 @cross_origin()
 def new_table():
     try:
@@ -53,6 +69,7 @@ def new_table():
         return json.dumps({ 'error-out': str(e) }, indent=1)
 
 @main.route('/fetch', methods=["POST"])
+@jwt_required()
 @cross_origin()
 def fetch():
     try:
