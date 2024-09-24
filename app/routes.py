@@ -25,6 +25,7 @@ def help():
 def register():
     try:
         data = request.json
+        return data
         return bot.create_user(data['username'], data['email'], Bcrypt.generate_password_hash(data['password']).decode('utf-8'))
     except Exception as e:
         return jsonify({"error": str(e)})
