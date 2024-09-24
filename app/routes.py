@@ -77,7 +77,6 @@ def new_table():
         return json.dumps({ 'error-out': str(e) }, indent=1)
 
 @main.route('/fetch', methods=["POST"])
-@jwt_required()
 @cross_origin()
 def fetch():
     try:
