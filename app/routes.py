@@ -8,7 +8,8 @@ import json
 from .db import bot
 
 main = Blueprint('main', 'api')
-cors = CORS(main, resources={r"/*": {"origins": "http://localhost:3000"}}) #Add your url of project here
+cors = CORS(main, resources={r"/*": {"origins": "http://localhost:3000"}})
+bcrypt = Bcrypt()
 
 @main.route('/', methods=["GET"])
 @cross_origin()
@@ -32,7 +33,7 @@ def register():
         if data['password'] == '':
             return jsonify({"error": "Missing data"}), 400
 
-        hashed_password = Bcrypt.generate_password_hash(password=data['password']).decode('utf-8')
+        hashed_password = bcrypt.generate_password_hash(password=data['password']).decode('utf-8')
 
         return bot.create_user(data['username'], data['email'], hashed_password)
     except Exception as e:
