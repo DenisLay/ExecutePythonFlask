@@ -23,8 +23,11 @@ def help():
 @main.route('/register', methods=["POST"])
 @cross_origin()
 def register():
-    data = request.get_json()
-    return bot.create_user(data['username'], data['email'], Bcrypt.generate_password_hash(data['password']).decode('utf-8'))
+    try:
+        data = request.get_json()
+        return bot.create_user(data['username'], data['email'], Bcrypt.generate_password_hash(data['password']).decode('utf-8'))
+    except Exception as e:
+        return jsonify({"error": str(e)})
 
 @main.route('/login', methods=["POST"])
 @cross_origin()
