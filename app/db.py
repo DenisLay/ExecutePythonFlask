@@ -61,7 +61,7 @@ class DBBot:
             return jsonify({"message-1": str(e)}), 400
 
         try:
-            self.cursor.execute(f'INSERT INTO users (username, email, password) values(\'{username}\', \'{email}\', \'{password})\'')
+            self.cursor.execute(f'INSERT INTO users (username, email, password) values(\'{username}\', \'{email}\', \'{password}\')')
             self.connection.commit()
         except Exception as e:
             return jsonify({"message-2": str(e)}), 400
