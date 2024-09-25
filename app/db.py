@@ -79,7 +79,8 @@ class DBBot:
 
         try:
             if user and bcrypt.check_password_hash(user[3], password):
-                access_token = create_access_token(identity={'username': user[1], 'email': user[2]})
+                #access_token = create_access_token(identity={'username': user[1], 'email': user[2]})
+                access_token = create_access_token(identity=user[0])
                 return jsonify(access_token=access_token), 200
         except Exception as e:
                 return jsonify({"message-2": str(e)}), 400
