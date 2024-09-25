@@ -52,7 +52,7 @@ class DBBot:
 
     def create_user(self, username, email, password):
         try:
-            self.cursor.execute(f'SELECT * FROM users WHERE email = {email}')
+            self.cursor.execute(f'SELECT * FROM users WHERE email = \'{email}\'')
             user_exists = self.cursor.fetchone()
 
             if user_exists:
@@ -61,7 +61,7 @@ class DBBot:
             return jsonify({"message-1": str(e)}), 400
 
         try:
-            self.cursor.execute(f'INSERT INTO users (username, email, password) values({username}, {email}, {password})')
+            self.cursor.execute(f'INSERT INTO users (username, email, password) values(\'{username}\', \'{email}\', \'{password})\'')
             self.connection.commit()
         except Exception as e:
             return jsonify({"message-2": str(e)}), 400
@@ -69,7 +69,7 @@ class DBBot:
         return jsonify({"message": "User registered succesfully"}), 201
 
     def login_user(self, email, password):
-        self.cursor.execute(f'SELECT * FROM users WHERE email = {email}')
+        self.cursor.execute(f'SELECT * FROM users WHERE email = \'{email}\'')
         user = self.cursor.fetchone()
 
         if user and Bcrypt.check_password_hash(user[3], password):
