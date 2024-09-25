@@ -3,6 +3,7 @@ from flask import jsonify
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import create_access_token
 
+bcrypt = Bcrypt()
 
 class DBBot:
     def __init__(self, dbname, user, password, host):
@@ -61,7 +62,8 @@ class DBBot:
             return jsonify({"message-1": str(e)}), 400
 
         try:
-            self.cursor.execute(f'INSERT INTO users (username, email, password) values(\'{username}\', \'{email}\', \'{password}\')')
+            hashed_password = bcrypt.generate_password_hash(password=password).decode('utf-8')
+            self.cursor.execute(f'INSERT INTO users (username, email, password) values(\'{username}\', \'{email}\', \'{hashed_password}\')')
             self.connection.commit()
         except Exception as e:
             return jsonify({"message-2": str(e)}), 400
@@ -76,7 +78,7 @@ class DBBot:
             return jsonify({"message-1": str(e)}), 400
 
         try:
-            if user and Bcrypt.check_password_hash(user[3], password):
+            if user and bcrypt.check_password_hash(user[3], password):
                 access_token = create_access_token(identity={'username': user[1], 'email': user[2]})
                 return jsonify(access_token=access_token), 200
         except Exception as e:
