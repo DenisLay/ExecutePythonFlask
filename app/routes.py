@@ -42,7 +42,7 @@ def register():
 @main.route('/login', methods=["POST"])
 @cross_origin()
 def login():
-    data = request.json
+    data = request.get_json()
     return bot.login_user(data["email"], data["password"])
 
 @main.route('/exec', methods=["POST"])
