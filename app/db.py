@@ -69,12 +69,18 @@ class DBBot:
         return jsonify({"message": "User registered succesfully"}), 201
 
     def login_user(self, email, password):
-        self.cursor.execute(f'SELECT * FROM users WHERE email = \'{email}\'')
-        user = self.cursor.fetchone()
+        try:
+            self.cursor.execute(f'SELECT * FROM users WHERE email = \'{email}\'')
+            user = self.cursor.fetchone()
+        except Exception as e:
+            return jsonify({"message-1": str(e)}), 400
 
-        if user and Bcrypt.check_password_hash(user[3], password):
-            access_token = create_access_token(identity={'username': user[1], 'email': user[2]})
-            return jsonify(access_token=access_token), 200
+        try:
+            if user and Bcrypt.check_password_hash(user[3], password):
+                access_token = create_access_token(identity={'username': user[1], 'email': user[2]})
+                return jsonify(access_token=access_token), 200
+        except Exception as e:
+                return jsonify({"message-2": str(e)}), 400
 
         return jsonify({"message": "Invalid credentials"}), 401
 

@@ -42,8 +42,11 @@ def register():
 @main.route('/login', methods=["POST"])
 @cross_origin()
 def login():
-    data = request.get_json()
-    return bot.login_user(data["email"], data["password"])
+    try:
+        data = request.get_json()
+        return bot.login_user(data["email"], data["password"])
+    except Exception as e:
+        return jsonify({"error": str(e)})
 
 @main.route('/exec', methods=["POST"])
 @jwt_required()
